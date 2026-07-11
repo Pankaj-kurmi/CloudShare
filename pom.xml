@@ -75,6 +75,16 @@
     <artifactId>spring-security-web</artifactId>
     <version>7.1.0</version>
 </dependency>
+		<dependency>
+		    <groupId>com.razorpay</groupId>
+		    <artifactId>razorpay-java</artifactId>
+		    <version>1.4.9</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20240303</version>
+		</dependency>
 <!-- JWT Processing -->
 <dependency>
     <groupId>io.jsonwebtoken</groupId>

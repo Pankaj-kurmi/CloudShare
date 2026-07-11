@@ -10,9 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class StaticResourceConfig implements WebMvcConfigurer {
     @Override
 public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    String uploadDir = Paths.get("uploads").toAbsolutePath().toString();
+    String uploadDir = Paths.get("upload").toAbsolutePath().toString();
 
-    registry.addResourceHandler("/uploads/**")
+    registry.addResourceHandler("/upload/**")
             .addResourceLocations("file:" + uploadDir + "/");
 }
     

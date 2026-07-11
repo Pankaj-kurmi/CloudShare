@@ -46,6 +46,20 @@ public class ProfileService {
         .build();
         
     }
+    public ProfileDTO getCurrentProfileDto() {
+        ProfileDocument profile = getCurrentProfile();
+
+        return ProfileDTO.builder()
+                .id(profile.getId())
+                .clerkId(profile.getClerkId())
+                .email(profile.getEmail())
+                .firstName(profile.getFirstName())
+                .lastName(profile.getLastName())
+                .photoUrl(profile.getPhotoUrl())
+                .credits(profile.getCredits())
+                .createdAt(profile.getCreatedAt())
+                .build();
+    }
     public ProfileDTO updateProfile(ProfileDTO profileDTO){
     ProfileDocument existingProfile =
     profilerepositry.findByClerkId(profileDTO.getClerkId());
@@ -87,6 +101,11 @@ public class ProfileService {
 } 
 return null;
     }
+    public ProfileDTO updateCurrentProfile(ProfileDTO profileDTO) {
+        ProfileDocument currentProfile = getCurrentProfile();
+        profileDTO.setClerkId(currentProfile.getClerkId());
+        return updateProfile(profileDTO);
+    }
     public void deleteProfile(String clerkId) {
     ProfileDocument existingProfile = profilerepositry.findByClerkId(clerkId);
 
@@ -103,7 +122,24 @@ public ProfileDocument getCurrentProfile() {
             .getAuthentication()
             .getName();
 
-    return profilerepositry.findByClerkId(clerkId);
+    ProfileDocument profile = profilerepositry.findByClerkId(clerkId);
+
+    if (profile == null) {
+        throw new UsernameNotFoundException("Profile not found for current user");
+    }
+
+    return profile;
 }
+
+    public void updateCurrentProfileCredits(String clerkId, int credits) {
+        ProfileDocument existingProfile = profilerepositry.findByClerkId(clerkId);
+
+        if (existingProfile == null) {
+            throw new UsernameNotFoundException("Profile not found for current user");
+        }
+
+        existingProfile.setCredits(credits);
+        profilerepositry.save(existingProfile);
+    }
     
 }

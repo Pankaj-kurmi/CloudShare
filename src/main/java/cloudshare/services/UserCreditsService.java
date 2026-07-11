@@ -18,12 +18,12 @@ public class UserCreditsService {
             .credits(15)
             .plan("BASIC")
             .build();
-    return userCreditsRepositry.save(userCredits);
+        UserCredits savedCredits = userCreditsRepositry.save(userCredits);
+        profileService.updateCurrentProfileCredits(clerkId, savedCredits.getCredits());
+        return savedCredits;
 }
 public UserCredits getUserCredits(String clerkId) {
-    return userCreditsRepositry.findAll().stream()
-            .filter(userCredits -> clerkId.equals(userCredits.getClerkId()))
-            .findFirst()
+        return userCreditsRepositry.findByClerkId(clerkId)
             .orElseGet(() -> createInitialCredits(clerkId));
 }
 
@@ -39,11 +39,24 @@ public UserCredits consumeCredits() {
     UserCredits userCredits = getUserCredits();
 
     if (userCredits.getCredits() <= 0) {
-        return null;
+        throw new IllegalStateException("No credits available");
     }
 
     userCredits.setCredits(userCredits.getCredits() - 1);
+    UserCredits savedCredits = userCreditsRepositry.save(userCredits);
+    profileService.updateCurrentProfileCredits(savedCredits.getClerkId(), savedCredits.getCredits());
+    return savedCredits;
+}
 
-    return userCreditsRepositry.save(userCredits);
+public UserCredits addCredits(String clerkId, int creditsToAdd) {
+    if (creditsToAdd <= 0) {
+        throw new IllegalArgumentException("Credits to add must be greater than zero");
+    }
+
+    UserCredits userCredits = getUserCredits(clerkId);
+    userCredits.setCredits(userCredits.getCredits() + creditsToAdd);
+    UserCredits savedCredits = userCreditsRepositry.save(userCredits);
+    profileService.updateCurrentProfileCredits(clerkId, savedCredits.getCredits());
+    return savedCredits;
 }
 }
