@@ -4,6 +4,10 @@ CloudShare is a full-stack cloud file sharing platform with secure authenticatio
 It combines a **Spring Boot + MongoDB backend** with a **React + Vite frontend** for a modern, scalable experience.
 
 ---
+<img width="1883" height="909" alt="Screenshot 2026-07-14 155810" src="https://github.com/user-attachments/assets/d41f5ed1-1363-450c-80e4-2f6972dba1e9" />
+<img width="1683" height="934" alt="Dashboard" src="https://github.com/user-attachments/assets/6151ae18-e446-4a65-915e-e3fe1c1fa634" />
+
+
 
 ## 📌 Table of Contents
 
